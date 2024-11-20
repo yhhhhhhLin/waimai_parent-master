@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/reggie_parent-master/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent-master/reggie_pojo/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent-master/reggie_server/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent-master/reggie_common/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/reggie_common/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/reggie_pojo/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/reggie_server/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/waimai_pojo/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/waimai_common/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/waimai_server/pom.xml" />
+        <option value="$PROJECT_DIR$/waimai_parent/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

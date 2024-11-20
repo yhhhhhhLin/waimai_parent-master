@@ -1,0 +1,21 @@
+reggie:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: waimai
+    username: root
+    password: abc8909389
+  redis:
+    host: remote
+    port: 26379
+#    database: 5
+#    password: 123456
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: xxx
+    access-key-secret: yyy
+    bucket-name: reggie-itcast
+  wechat:
+    appid: xxx
+    secret: yyy
