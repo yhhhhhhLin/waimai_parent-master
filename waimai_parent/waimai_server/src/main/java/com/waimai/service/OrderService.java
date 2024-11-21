@@ -90,4 +90,10 @@ public interface OrderService {
      * @param id
      */
     void complete(Long id);
+
+    /**
+     * 更新订单状态
+     * @param orderStatusDTO
+     */
+    void updateStatus(OrderStatusDTO orderStatusDTO);
 }

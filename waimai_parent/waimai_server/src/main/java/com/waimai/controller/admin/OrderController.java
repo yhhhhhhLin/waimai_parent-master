@@ -1,5 +1,6 @@
 package com.waimai.controller.admin;
 
+import com.waimai.dto.OrderStatusDTO;
 import com.waimai.dto.OrdersCancelDTO;
 import com.waimai.dto.OrdersConfirmDTO;
 import com.waimai.dto.OrdersRejectionDTO;
@@ -133,6 +134,12 @@ public class OrderController {
     @ApiOperation("完成订单")
     public R complete(@PathVariable("id") Long id) {
         orderService.complete(id);
+        return R.success();
+    }
+
+    @PutMapping("/status")
+    public R editOrderStatus(@RequestBody OrderStatusDTO orderStatusDTO) {
+        orderService.updateStatus(orderStatusDTO);
         return R.success();
     }
 

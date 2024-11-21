@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.waimai.entity.Orders.PENDING_PAYMENT;
+
+
 /**
  * 订单
  */
@@ -91,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
         //封装订单数据，向订单表插入一条数据
         Orders order = Orders.builder()
                 .number(String.valueOf(System.currentTimeMillis()))                 //订单号
-                .status(Orders.PENDING_PAYMENT)                                     //订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消 7退款
+                .status(PENDING_PAYMENT)                                     //订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消 7退款
                 .userId(userId)                                                     //用户id
                 .addressBookId(addressBookId)                                       //地址id
                 .orderTime(LocalDateTime.now())                                     //下单时间
@@ -523,6 +526,30 @@ public class OrderServiceImpl implements OrderService {
         orders.setDeliveryTime(LocalDateTime.now());
 
         orderMapper.updateOrdersById(orders);
+    }
+
+    @Override
+    public void updateStatus(OrderStatusDTO orderStatusDTO) {
+        if(orderStatusDTO == null){
+            throw new OrderBusinessException(MessageConstant.UNKNOWN_ERROR);
+        }
+        Long orderId = orderStatusDTO.getId();
+        Integer updateStatus = orderStatusDTO.getStatus();
+        switch (updateStatus){
+            case Orders.CONFIRMED:
+                OrdersConfirmDTO dto = new OrdersConfirmDTO();
+                dto.setId(orderId);
+                confirm(dto);
+                break;
+            case Orders.DELIVERY_IN_PROGRESS:
+                delivery(orderId);
+                break;
+            case Orders.COMPLETED:
+                complete(orderId);
+                break;
+            default:
+                System.out.println("todo状态");
+        }
     }
 
 
