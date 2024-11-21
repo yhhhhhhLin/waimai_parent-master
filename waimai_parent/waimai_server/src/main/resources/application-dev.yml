@@ -1,4 +1,4 @@
-reggie:
+waimai:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
@@ -15,7 +15,7 @@ reggie:
     endpoint: oss-cn-beijing.aliyuncs.com
     access-key-id: xxx
     access-key-secret: yyy
-    bucket-name: reggie-itcast
+    bucket-name: waimai-zzz
   wechat:
     appid: xxx
     secret: yyy

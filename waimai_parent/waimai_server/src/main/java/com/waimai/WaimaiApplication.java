@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching //开启注解缓存
 @EnableScheduling//开启任务调度
 @Slf4j
-public class ReggieApplication {
+public class WaimaiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ReggieApplication.class, args);
+        SpringApplication.run(WaimaiApplication.class, args);
         log.info("server started");
     }
 }

@@ -6,14 +6,14 @@ spring:
     active: dev #修改成dev
   datasource:
     druid:
-      driver-class-name: ${reggie.datasource.driver-class-name}
-      url: jdbc:mysql://${reggie.datasource.host}:${reggie.datasource.port}/${reggie.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: ${reggie.datasource.username}
-      password: ${reggie.datasource.password}
+      driver-class-name: ${waimai.datasource.driver-class-name}
+      url: jdbc:mysql://${waimai.datasource.host}:${waimai.datasource.port}/${waimai.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${waimai.datasource.username}
+      password: ${waimai.datasource.password}
 
   redis:
-    host: ${reggie.redis.host}
-    port: ${reggie.redis.port}
+    host: ${waimai.redis.host}
+    port: ${waimai.redis.port}
 #    database: ${reggie.redis.database}
 #    password: ${reggie.redis.password}
 
@@ -33,7 +33,7 @@ logging:
         service: info
         controller: info
 
-reggie:
+waimai:
   jwt:
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itcast
@@ -48,10 +48,10 @@ reggie:
     # 设置前端传递过来的令牌名称
     user-token-name: authentication
   alioss:
-    endpoint: ${reggie.alioss.endpoint}
-    access-key-id: ${reggie.alioss.access-key-id}
-    access-key-secret: ${reggie.alioss.access-key-secret}
-    bucket-name: ${reggie.alioss.bucket-name}
+    endpoint: ${waimai.alioss.endpoint}
+    access-key-id: ${waimai.alioss.access-key-id}
+    access-key-secret: ${waimai.alioss.access-key-secret}
+    bucket-name: ${waimai.alioss.bucket-name}
   wechat:
-    appid: ${reggie.wechat.appid}
-    secret: ${reggie.wechat.secret}
+    appid: ${waimai.wechat.appid}
+    secret: ${waimai.wechat.secret}

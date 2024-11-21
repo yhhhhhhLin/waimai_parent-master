@@ -21,10 +21,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Value("${reggie.wechat.appid}")
+    @Value("${waimai.wechat.appid}")
     private String appid;
 
-    @Value("${reggie.wechat.secret}")
+    @Value("${waimai.wechat.secret}")
     private String secret;
 
 

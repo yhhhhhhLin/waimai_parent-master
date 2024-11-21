@@ -37,7 +37,18 @@ public class OrderController {
     public R<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO) {
         log.info("用户下单:{}", ordersSubmitDTO);
         OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
+//        TODO 目前没办法完成支付功能，先直接调用支付接口付款成功
+        payFirst(orderSubmitVO);
         return R.success(orderSubmitVO);
+    }
+
+    private void payFirst(OrderSubmitVO orderSubmitVO) {
+        OrdersPaymentDTO ordersPaymentDTO = new OrdersPaymentDTO();
+        ordersPaymentDTO.setOrderNumber(orderSubmitVO.getOrderNumber());
+//        TODO 支付宝
+        ordersPaymentDTO.setPayMethod(1);
+        payment(ordersPaymentDTO);
+
     }
 
     /**
