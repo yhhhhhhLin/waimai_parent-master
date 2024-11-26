@@ -19,12 +19,14 @@ import com.waimai.service.SetmealService;
 import com.waimai.vo.DishItemVO;
 import com.waimai.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -149,32 +151,41 @@ public class SetmealServiceImpl implements SetmealService {
      * 套餐 启用禁用
      *
      * @param status 套餐状态
-     * @param id     套餐id
+     * @param strIds 套餐ids
      */
-    public void startOrStop(Integer status, Long id) {
-        //起售套餐时，判断套餐内是否有停售菜品，有停售菜品提示"套餐内包含未启售菜品，无法启售"
-        if (StatusConstant.ENABLE == status) {
-            //根据套餐id查询菜品
-            List<Dish> dishList = dishMapper.getBySetmealId(id);
-            if (dishList != null && dishList.size() > 0) {
-                dishList.forEach(dish -> {
-                            //判断菜品书否是未启动
-                            if (dish.getStatus() == StatusConstant.DISABLE) {
-                                //套餐启动失败，套餐包未起售菜品
-                                throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);
-                            }
-                        }
-                );
-            }
+    public void startOrStop(Integer status, String strIds) {
+        ArrayList<Long> ids = new ArrayList<>();
+        if (StringUtils.isNotBlank(strIds)) {
+            Arrays.stream(strIds.split(","))
+                    .mapToLong(Long::parseLong)
+                    .forEach(ids::add);
+
         }
+        ids.forEach(id -> {
+            //起售套餐时，判断套餐内是否有停售菜品，有停售菜品提示"套餐内包含未启售菜品，无法启售"
+            if (StatusConstant.ENABLE.equals(status)) {
+                //根据套餐id查询菜品
+                List<Dish> dishList = dishMapper.getBySetmealId(id);
+                if (dishList != null && !dishList.isEmpty()) {
+                    dishList.forEach(dish -> {
+                                //判断菜品书否是未启动
+                                if (dish.getStatus().equals(StatusConstant.DISABLE)) {
+                                    //套餐启动失败，套餐包未起售菜品
+                                    throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+                                }
+                            }
+                    );
+                }
+            }
 
-        //起售状态的话直接更新为停售
-        Setmeal setmeal = Setmeal.builder()
-                .id(id)
-                .status(status)
-                .build();
-        setmealMapper.updatesByIds(setmeal);
+            //起售状态的话直接更新为停售
+            Setmeal setmeal = Setmeal.builder()
+                    .id(id)
+                    .status(status)
+                    .build();
+            setmealMapper.updatesByIds(setmeal);
 
+        });
     }
 
     /**

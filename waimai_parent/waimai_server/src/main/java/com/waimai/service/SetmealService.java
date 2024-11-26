@@ -30,7 +30,7 @@ public interface SetmealService {
     void update(SetmealDTO setmealDTO);
 
     //套餐 启用禁用
-    void startOrStop(Integer status, Long id);
+    void startOrStop(Integer status, String strIds);
 
 
     //条件查询

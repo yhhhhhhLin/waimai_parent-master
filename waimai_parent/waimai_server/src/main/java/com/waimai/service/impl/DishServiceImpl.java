@@ -19,12 +19,14 @@ import com.waimai.result.PageResult;
 import com.waimai.service.DishService;
 import com.waimai.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,7 +70,7 @@ public class DishServiceImpl implements DishService {
 
         //循环添加id
         flavors.forEach(item -> {
-            if (item.getValue().equals("[]")){
+            if (item.getValue().equals("[]")) {
                 throw new BaseException("傻逼,口味不能为空");
             }
             //设置口味关联的菜品id
@@ -152,7 +154,6 @@ public class DishServiceImpl implements DishService {
         setmealDishMapper.updateSetmealDishByID(dish);
 
 
-
         //获取菜品id
         Long dishId = dishDTO.getId();
         //根据菜品id删除口味
@@ -163,14 +164,14 @@ public class DishServiceImpl implements DishService {
         if (flavors != null && flavors.size() > 0) {
             //为口味绑定菜品id
             flavors.forEach(flavor -> {
-                if (flavor.getValue().equals("[]")){
+                if (flavor.getValue().equals("[]")) {
                     throw new BaseException("傻逼,口味不能为空");
                 }
                 flavor.setDishId(dishId);
             });
             //插入新的口味数据
             dishFlavorMapper.insert(flavors);
-        }else {
+        } else {
             return;
         }
 
@@ -180,35 +181,45 @@ public class DishServiceImpl implements DishService {
      * 菜品起售、停售
      *
      * @param status 菜品状态
-     * @param id     菜品id
+     * @param strIds 菜品id
      */
     @Transactional
-    public void startOrStop(Integer status, Long id) {
-        Dish dish = Dish.builder()
-                .id(id)
-                .status(status)
-                .build();
-        //更新菜品状态
-        dishMapper.update(dish);
+    public void startOrStop(Integer status, String strIds) {
+        ArrayList<Long> ids = new ArrayList<>();
+        if (StringUtils.isNotBlank(strIds)) {
+            Arrays.stream(strIds.split(","))
+                    .mapToLong(Long::parseLong)
+                    .forEach(ids::add);
 
-        //如果菜品状态为停售相关的套餐也得停售
-        if (StatusConstant.DISABLE == status) {
-            List<Long> ids = new ArrayList<>();
-            ids.add(id);
+        }
+        ids.forEach(id -> {
+            Dish dish = Dish.builder()
+                    .id(id)
+                    .status(status)
+                    .build();
+            //更新菜品状态
+            dishMapper.update(dish);
 
-            //通过id查询套餐如果有多个都将停售
-            List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
-            if (setmealIds != null && setmealIds.size() > 0) {
+            //如果菜品状态为停售相关的套餐也得停售
+            if (StatusConstant.DISABLE.equals(status)) {
+                List<Long> dishIds = new ArrayList<>();
+                dishIds.add(id);
 
-                Setmeal setmeal = new Setmeal();
-                setmeal.setStatus(StatusConstant.DISABLE);
-                //循环停售套餐
-                for (Long setmealId : setmealIds) {
-                    setmeal.setId(setmealId);
-                    setmealMapper.updatesByIds(setmeal);
+                //通过id查询套餐如果有多个都将停售
+                List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(dishIds);
+                if (setmealIds != null && !setmealIds.isEmpty()) {
+
+                    Setmeal setmeal = new Setmeal();
+                    setmeal.setStatus(StatusConstant.DISABLE);
+                    //循环停售套餐
+                    for (Long setmealId : setmealIds) {
+                        setmeal.setId(setmealId);
+                        setmealMapper.updatesByIds(setmeal);
+                    }
                 }
             }
-        }
+
+        });
     }
 
     /**

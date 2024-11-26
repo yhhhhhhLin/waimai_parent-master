@@ -122,14 +122,14 @@ public class DishController {
      * 菜品起售、停售
      *
      * @param status 菜品状态
-     * @param id     菜品id
+     * @param ids     菜品id
      * @return success
      */
     @PostMapping("/status/{status}")
     @ApiOperation("菜品起售、停售")
-    public R<String> startOrStop(@PathVariable Integer status, Long id) {
-        log.info("菜品起售、停售---status:{},id:{}", status, id);
-        dishService.startOrStop(status, id);
+    public R<String> startOrStop(@PathVariable Integer status, String ids) {
+        log.info("菜品起售、停售---status:{},id:{}", status, ids);
+        dishService.startOrStop(status, ids);
         cleanCache("dish_*");
         return R.success("状态修改成功");
     }

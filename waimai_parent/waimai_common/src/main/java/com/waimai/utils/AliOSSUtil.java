@@ -4,11 +4,23 @@ import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.GetObjectRequest;
+import com.aliyun.oss.model.OSSObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Data
 @AllArgsConstructor
@@ -67,4 +79,48 @@ public class AliOSSUtil {
 
         return stringBuilder.toString();
     }
+
+
+//    public ResponseEntity<InputStreamResource> download(String name) {
+//        OSS ossClient = null;
+//        InputStream inputStream = null;
+//        try {
+//            URL fileUrl = new URL(name);
+//            String path = fileUrl.getPath();
+//            String objectKey = path.substring(1);
+//
+//            ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+//
+//            GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, objectKey);
+//            OSSObject ossObject = ossClient.getObject(getObjectRequest);
+//
+//            inputStream = ossObject.getObjectContent();
+//
+//            HttpHeaders headers = new HttpHeaders();
+//            String encodedFilename = URLEncoder.encode(objectKey, StandardCharsets.UTF_8);
+//            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + "\"");
+//
+//            String contentType = "application/octet-stream";
+//            if (objectKey.endsWith(".jpg") || objectKey.endsWith(".jpeg")) {
+//                contentType = "image/jpeg";
+//            } else if (objectKey.endsWith(".png")) {
+//                contentType = "image/png";
+//            } else if (objectKey.endsWith(".gif")) {
+//                contentType = "image/gif";
+//            }
+//            headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+//
+//            return ResponseEntity.ok()
+//                    .headers(headers)
+//                    .body(new InputStreamResource(inputStream));
+//
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        } finally {
+//            if (ossClient != null) {
+//                ossClient.shutdown();
+//            }
+//            // 不要在这里关闭 inputStream
+//        }
+//    }
 }

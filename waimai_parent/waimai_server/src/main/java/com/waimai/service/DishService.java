@@ -29,7 +29,7 @@ public interface DishService {
     void updateWithFlavor(DishDTO dishDTO);
 
     //菜品起售、停售
-    void startOrStop(Integer status, Long id);
+    void startOrStop(Integer status, String strIds);
 
     //根据分类id查询菜品
     List<Dish> list(Long categoryId, String name);

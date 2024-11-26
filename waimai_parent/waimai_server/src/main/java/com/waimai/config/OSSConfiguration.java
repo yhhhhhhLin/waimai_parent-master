@@ -23,11 +23,13 @@ public class OSSConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public AliOSSUtil aliOSSUtil(AliOSSProperties aliOSSProperties) {
-        return AliOSSUtil.builder()
+        AliOSSUtil aliOss = AliOSSUtil.builder()
                 .endpoint(aliOSSProperties.getEndpoint())
                 .accessKeyId(aliOSSProperties.getAccessKeyId())
                 .accessKeySecret(aliOSSProperties.getAccessKeySecret())
                 .bucketName(aliOSSProperties.getBucketName())
                 .build();
+        log.info("aliOss created successfully");
+        return aliOss;
     }
 }

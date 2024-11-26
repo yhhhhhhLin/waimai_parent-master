@@ -7,13 +7,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.UUID;
 
 /**
@@ -52,6 +54,13 @@ public class CommonController {
         }
         return R.success(fileURL);
     }
+
+//    @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//    @ApiOperation("文件下载")
+//    public ResponseEntity<InputStreamResource> downloadFile(@RequestParam("name") String name,
+//                                                            HttpServletResponse response) {
+//        return aliOSSUtil.download(name);
+//    }
 
 
 }

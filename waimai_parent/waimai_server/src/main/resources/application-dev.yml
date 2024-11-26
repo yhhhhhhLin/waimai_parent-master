@@ -12,10 +12,10 @@ waimai:
 #    database: 5
 #    password: 123456
   alioss:
-    endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: xxx
-    access-key-secret: yyy
-    bucket-name: waimai-zzz
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    access-key-id: ${ali-oss-ak}
+    access-key-secret: ${ali-oss-sk}
+    bucket-name: waimai-class
   wechat:
     appid: xxx
     secret: yyy

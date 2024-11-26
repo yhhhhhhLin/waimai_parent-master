@@ -106,9 +106,9 @@ public class SetmealController {
     @PostMapping("/status/{status}")
     @ApiOperation("套餐 启用禁用")
     @CacheEvict(cacheNames = "setmealCache", allEntries = true)
-    public R<String> startOrStop(@PathVariable Integer status, Long id) {
+    public R<String> startOrStop(@PathVariable Integer status, String ids) {
         log.info("套餐 启用禁用:{}", status);
-        setmealService.startOrStop(status, id);
+        setmealService.startOrStop(status, ids);
         return R.success("状态修改成功");
     }
 

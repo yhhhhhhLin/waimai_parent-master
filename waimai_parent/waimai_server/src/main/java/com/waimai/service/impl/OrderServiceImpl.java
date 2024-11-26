@@ -104,10 +104,11 @@ public class OrderServiceImpl implements OrderService {
                 .remark(ordersSubmitDTO.getRemark())                                //备注
                 .userName(userMapper.getById(userId).getName())                     //用户名
                 .phone(addressBook.getPhone())                                      //手机号
-                .address(addressBook.getProvinceName()                              //地址
-                        + addressBook.getCityName()
-                        + addressBook.getDistrictName()
-                        + addressBook.getDetail())
+//                .address(addressBook.getProvinceName()                              //地址
+//                        + addressBook.getCityName()
+//                        + addressBook.getDistrictName()
+//                        + addressBook.getDetail())
+                .address(addressBook.getDetail())
                 .consignee(addressBook.getConsignee())                              //收货人
                 .estimatedDeliveryTime(ordersSubmitDTO.getEstimatedDeliveryTime())  //预计送达时间
                 .deliveryStatus(ordersSubmitDTO.getDeliveryStatus())                //配送状态 1立即送出  0选择具体时间
